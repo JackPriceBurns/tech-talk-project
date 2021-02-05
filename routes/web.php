@@ -1,6 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\LoginController;
+use Illuminate\Routing\Router;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +15,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+/** @var Router $router */
+
+$router->view('/', 'welcome')->name('home');
+
+$router->get('auth/login', LoginController::class . '@index')->name('auth.login');
+$router->post('auth/login', LoginController::class . '@attempt');
+
+$router->middleware('auth:web')->group(
+    function (Router $router) {
+        $router->resource('admin', AdminController::class)->only('index');
+    }
+);
