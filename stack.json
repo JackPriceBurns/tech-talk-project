@@ -712,13 +712,23 @@
                     },
                     {
                         "Namespace": "aws:elasticbeanstalk:application:environment",
+                        "OptionName": "APP_NAME",
+                        "Value": "Tech Talk"
+                    },
+                    {
+                        "Namespace": "aws:elasticbeanstalk:application:environment",
                         "OptionName": "APP_ENV",
                         "Value": "production"
                     },
                     {
                         "Namespace": "aws:elasticbeanstalk:application:environment",
-                        "OptionName": "INSTANCE_ID",
-                        "Value": "90000"
+                        "OptionName": "APP_KEY",
+                        "Value": "production"
+                    },
+                    {
+                        "Namespace": "aws:elasticbeanstalk:application:environment",
+                        "OptionName": "APP_DEBUG",
+                        "Value": "false"
                     }
                 ]
             }
