@@ -1,0 +1,1108 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Resources": {
+        "VPC": {
+            "Type": "AWS::EC2::VPC",
+            "Properties": {
+                "CidrBlock": "10.0.0.0/16",
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "tech-talk"
+                    }
+                ]
+            }
+        },
+        "InternetGateway": {
+            "Type": "AWS::EC2::InternetGateway"
+        },
+        "NatGateway": {
+            "Type": "AWS::EC2::NatGateway",
+            "Properties": {
+                "AllocationId": {
+                    "Fn::GetAtt": [
+                        "NatGatewayIP",
+                        "AllocationId"
+                    ]
+                },
+                "SubnetId": {
+                    "Ref": "PublicSubnet1"
+                }
+            }
+        },
+        "NatGatewayIP": {
+            "Type": "AWS::EC2::EIP",
+            "Properties": {
+                "Domain": "vpc"
+            }
+        },
+        "GatewayAttachment": {
+            "Type": "AWS::EC2::VPCGatewayAttachment",
+            "Properties": {
+                "VpcId": {
+                    "Ref": "VPC"
+                },
+                "InternetGatewayId": {
+                    "Ref": "InternetGateway"
+                }
+            }
+        },
+        "PublicSubnet1": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+                "VpcId": {
+                    "Ref": "VPC"
+                },
+                "CidrBlock": "10.0.0.0/24",
+                "AvailabilityZone": {
+                    "Fn::Join": [
+                        "",
+                        [
+                            {
+                                "Ref": "AWS::Region"
+                            },
+                            "a"
+                        ]
+                    ]
+                },
+                "MapPublicIpOnLaunch": true,
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "public-subnet-1"
+                    }
+                ]
+            }
+        },
+        "PublicSubnet2": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+                "VpcId": {
+                    "Ref": "VPC"
+                },
+                "CidrBlock": "10.0.1.0/24",
+                "AvailabilityZone": {
+                    "Fn::Join": [
+                        "",
+                        [
+                            {
+                                "Ref": "AWS::Region"
+                            },
+                            "b"
+                        ]
+                    ]
+                },
+                "MapPublicIpOnLaunch": true,
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "public-subnet-2"
+                    }
+                ]
+            }
+        },
+        "PublicSubnet3": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+                "VpcId": {
+                    "Ref": "VPC"
+                },
+                "CidrBlock": "10.0.2.0/24",
+                "AvailabilityZone": {
+                    "Fn::Join": [
+                        "",
+                        [
+                            {
+                                "Ref": "AWS::Region"
+                            },
+                            "c"
+                        ]
+                    ]
+                },
+                "MapPublicIpOnLaunch": true,
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "public-subnet-3"
+                    }
+                ]
+            }
+        },
+        "PrivateSubnet1": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+                "VpcId": {
+                    "Ref": "VPC"
+                },
+                "CidrBlock": "10.0.16.0/20",
+                "AvailabilityZone": {
+                    "Fn::Join": [
+                        "",
+                        [
+                            {
+                                "Ref": "AWS::Region"
+                            },
+                            "a"
+                        ]
+                    ]
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "private-subnet-1"
+                    }
+                ]
+            }
+        },
+        "PrivateSubnet2": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+                "VpcId": {
+                    "Ref": "VPC"
+                },
+                "CidrBlock": "10.0.32.0/20",
+                "AvailabilityZone": {
+                    "Fn::Join": [
+                        "",
+                        [
+                            {
+                                "Ref": "AWS::Region"
+                            },
+                            "b"
+                        ]
+                    ]
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "private-subnet-2"
+                    }
+                ]
+            }
+        },
+        "PrivateSubnet3": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+                "VpcId": {
+                    "Ref": "VPC"
+                },
+                "CidrBlock": "10.0.48.0/20",
+                "AvailabilityZone": {
+                    "Fn::Join": [
+                        "",
+                        [
+                            {
+                                "Ref": "AWS::Region"
+                            },
+                            "c"
+                        ]
+                    ]
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "private-subnet-3"
+                    }
+                ]
+            }
+        },
+        "PublicRouteTable": {
+            "Type": "AWS::EC2::RouteTable",
+            "Properties": {
+                "VpcId": {
+                    "Ref": "VPC"
+                }
+            }
+        },
+        "PrivateRouteTable": {
+            "Type": "AWS::EC2::RouteTable",
+            "Properties": {
+                "VpcId": {
+                    "Ref": "VPC"
+                }
+            }
+        },
+        "Pub1RTAssociation": {
+            "Type": "AWS::EC2::SubnetRouteTableAssociation",
+            "Properties": {
+                "RouteTableId": {
+                    "Ref": "PublicRouteTable"
+                },
+                "SubnetId": {
+                    "Ref": "PublicSubnet1"
+                }
+            }
+        },
+        "Pub2RTAssociation": {
+            "Type": "AWS::EC2::SubnetRouteTableAssociation",
+            "Properties": {
+                "RouteTableId": {
+                    "Ref": "PublicRouteTable"
+                },
+                "SubnetId": {
+                    "Ref": "PublicSubnet2"
+                }
+            }
+        },
+        "Pub3RTAssociation": {
+            "Type": "AWS::EC2::SubnetRouteTableAssociation",
+            "Properties": {
+                "RouteTableId": {
+                    "Ref": "PublicRouteTable"
+                },
+                "SubnetId": {
+                    "Ref": "PublicSubnet3"
+                }
+            }
+        },
+        "Pri1RTAssociation": {
+            "Type": "AWS::EC2::SubnetRouteTableAssociation",
+            "Properties": {
+                "RouteTableId": {
+                    "Ref": "PrivateRouteTable"
+                },
+                "SubnetId": {
+                    "Ref": "PrivateSubnet1"
+                }
+            }
+        },
+        "Pri2RTAssociation": {
+            "Type": "AWS::EC2::SubnetRouteTableAssociation",
+            "Properties": {
+                "RouteTableId": {
+                    "Ref": "PrivateRouteTable"
+                },
+                "SubnetId": {
+                    "Ref": "PrivateSubnet2"
+                }
+            }
+        },
+        "Pri3RTAssociation": {
+            "Type": "AWS::EC2::SubnetRouteTableAssociation",
+            "Properties": {
+                "RouteTableId": {
+                    "Ref": "PrivateRouteTable"
+                },
+                "SubnetId": {
+                    "Ref": "PrivateSubnet3"
+                }
+            }
+        },
+        "PublicRoute": {
+            "Type": "AWS::EC2::Route",
+            "Properties": {
+                "RouteTableId": {
+                    "Ref": "PublicRouteTable"
+                },
+                "DestinationCidrBlock": "0.0.0.0/0",
+                "GatewayId": {
+                    "Ref": "InternetGateway"
+                }
+            }
+        },
+        "PrivateRoute": {
+            "Type": "AWS::EC2::Route",
+            "Properties": {
+                "RouteTableId": {
+                    "Ref": "PrivateRouteTable"
+                },
+                "DestinationCidrBlock": "0.0.0.0/0",
+                "NatGatewayId": {
+                    "Ref": "NatGateway"
+                }
+            }
+        },
+        "DBSecretPassword": {
+            "Type": "AWS::SecretsManager::Secret",
+            "Properties": {
+                "Description": "This is my RDS Instance Secret",
+                "GenerateSecretString": {
+                    "SecretStringTemplate": "{\"username\": \"root\"}",
+                    "GenerateStringKey": "password",
+                    "PasswordLength": 16,
+                    "ExcludeCharacters": "\"@/\\"
+                }
+            }
+        },
+        "DBSubnetGroup": {
+            "Type": "AWS::RDS::DBSubnetGroup",
+            "Properties": {
+                "DBSubnetGroupDescription": "Private DB Subnet",
+                "SubnetIds": [
+                    {
+                        "Ref": "PrivateSubnet1"
+                    },
+                    {
+                        "Ref": "PrivateSubnet2"
+                    },
+                    {
+                        "Ref": "PrivateSubnet3"
+                    }
+                ]
+            }
+        },
+        "DBSecurityGroup": {
+            "Type": "AWS::RDS::DBSecurityGroup",
+            "Properties": {
+                "EC2VpcId": {
+                    "Ref": "VPC"
+                },
+                "DBSecurityGroupIngress": [
+                    {
+                        "EC2SecurityGroupId": {
+                            "Fn::GetAtt": [
+                                "InstanceSecurityGroup",
+                                "GroupId"
+                            ]
+                        }
+                    }
+                ],
+                "GroupDescription": "Database security group",
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "database-sg"
+                    }
+                ]
+            },
+            "DependsOn": [
+                "InstanceSecurityGroup"
+            ]
+        },
+        "DBInstance": {
+            "Type": "AWS::RDS::DBInstance",
+            "Properties": {
+                "DBName": "production",
+                "AllocatedStorage": "20",
+                "DBInstanceClass": "db.t3.micro",
+                "Engine": "mariadb",
+                "DBSecurityGroups": [
+                    {
+                        "Ref": "DBSecurityGroup"
+                    }
+                ],
+                "MasterUsername": {
+                    "Fn::Sub": "{{resolve:secretsmanager:${DBSecretPassword}::username}}"
+                },
+                "MasterUserPassword": {
+                    "Fn::Sub": "{{resolve:secretsmanager:${DBSecretPassword}::password}}"
+                },
+                "DBSubnetGroupName": {
+                    "Ref": "DBSubnetGroup"
+                }
+            }
+        },
+        "ElastiCacheSecurityGroup": {
+            "Type": "AWS::EC2::SecurityGroup",
+            "Properties": {
+                "GroupDescription": "Elasticache Security Group",
+                "VpcId": {
+                    "Ref": "VPC"
+                },
+                "SecurityGroupIngress": [
+                    {
+                        "IpProtocol": "tcp",
+                        "FromPort": "11211",
+                        "ToPort": "11211",
+                        "SourceSecurityGroupId": {
+                            "Fn::GetAtt": [
+                                "InstanceSecurityGroup",
+                                "GroupId"
+                            ]
+                        }
+                    }
+                ],
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "elasticache-sg"
+                    }
+                ]
+            },
+            "DependsOn": [
+                "InstanceSecurityGroup"
+            ]
+        },
+        "ElasticCacheSubnetGroup": {
+            "Type": "AWS::ElastiCache::SubnetGroup",
+            "Properties": {
+                "Description": "ElastiCache Subnet Group",
+                "SubnetIds": [
+                    {
+                        "Ref": "PrivateSubnet1"
+                    },
+                    {
+                        "Ref": "PrivateSubnet2"
+                    },
+                    {
+                        "Ref": "PrivateSubnet3"
+                    }
+                ]
+            }
+        },
+        "ElastiCacheCluster": {
+            "Type": "AWS::ElastiCache::CacheCluster",
+            "Properties": {
+                "AutoMinorVersionUpgrade": "true",
+                "Engine": "memcached",
+                "CacheNodeType": "cache.t3.micro",
+                "CacheSubnetGroupName": {
+                    "Ref": "ElasticCacheSubnetGroup"
+                },
+                "NumCacheNodes": "1",
+                "VpcSecurityGroupIds": [
+                    {
+                        "Fn::GetAtt": [
+                            "ElastiCacheSecurityGroup",
+                            "GroupId"
+                        ]
+                    }
+                ]
+            }
+        },
+        "InstanceSecurityGroup": {
+            "Type": "AWS::EC2::SecurityGroup",
+            "Properties": {
+                "GroupDescription": "Instance Security Group",
+                "VpcId": {
+                    "Ref": "VPC"
+                },
+                "SecurityGroupIngress": [],
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "instance-sg"
+                    }
+                ]
+            }
+        },
+        "EBApplication": {
+            "Type": "AWS::ElasticBeanstalk::Application"
+        },
+        "EBSampleApplicationVersion": {
+            "Type": "AWS::ElasticBeanstalk::ApplicationVersion",
+            "Properties": {
+                "ApplicationName": {
+                    "Ref": "EBApplication"
+                },
+                "Description": "AWS ElasticBeanstalk Sample Application Version",
+                "SourceBundle": {
+                    "S3Bucket": {
+                        "Fn::Join": [
+                            "-",
+                            [
+                                "elasticbeanstalk-samples",
+                                {
+                                    "Ref": "AWS::Region"
+                                }
+                            ]
+                        ]
+                    },
+                    "S3Key": "php-newsample-app.zip"
+                }
+            }
+        },
+        "InstanceProfileRole": {
+            "Type": "AWS::IAM::Role",
+            "Properties": {
+                "AssumeRolePolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Effect": "Allow",
+                            "Principal": {
+                                "Service": [
+                                    "ec2.amazonaws.com"
+                                ]
+                            },
+                            "Action": [
+                                "sts:AssumeRole"
+                            ]
+                        }
+                    ]
+                },
+                "Policies": [
+                    {
+                        "PolicyName": "root",
+                        "PolicyDocument": {
+                            "Version": "2012-10-17",
+                            "Statement": [
+                                {
+                                    "Sid": "BucketAccess",
+                                    "Action": [
+                                        "s3:Get*",
+                                        "s3:List*",
+                                        "s3:PutObject"
+                                    ],
+                                    "Effect": "Allow",
+                                    "Resource": "*"
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        "InstanceProfile": {
+            "Type": "AWS::IAM::InstanceProfile",
+            "Properties": {
+                "Roles": [
+                    {
+                        "Ref": "InstanceProfileRole"
+                    }
+                ]
+            }
+        },
+        "EBEnvironment": {
+            "Type": "AWS::ElasticBeanstalk::Environment",
+            "Properties": {
+                "ApplicationName": {
+                    "Ref": "EBApplication"
+                },
+                "SolutionStackName": "64bit Amazon Linux 2 v3.1.5 running PHP 7.4",
+                "VersionLabel": {
+                    "Ref": "EBSampleApplicationVersion"
+                },
+                "OptionSettings": [
+                    {
+                        "Namespace": "aws:ec2:vpc",
+                        "OptionName": "VPCId",
+                        "Value": {
+                            "Ref": "VPC"
+                        }
+                    },
+                    {
+                        "Namespace": "aws:ec2:vpc",
+                        "OptionName": "Subnets",
+                        "Value": {
+                            "Fn::Join": [
+                                ",",
+                                [
+                                    {
+                                        "Ref": "PrivateSubnet1"
+                                    },
+                                    {
+                                        "Ref": "PrivateSubnet2"
+                                    },
+                                    {
+                                        "Ref": "PrivateSubnet3"
+                                    }
+                                ]
+                            ]
+                        }
+                    },
+                    {
+                        "Namespace": "aws:ec2:vpc",
+                        "OptionName": "ELBSubnets",
+                        "Value": {
+                            "Fn::Join": [
+                                ",",
+                                [
+                                    {
+                                        "Ref": "PublicSubnet1"
+                                    },
+                                    {
+                                        "Ref": "PublicSubnet2"
+                                    },
+                                    {
+                                        "Ref": "PublicSubnet3"
+                                    }
+                                ]
+                            ]
+                        }
+                    },
+                    {
+                        "Namespace": "aws:autoscaling:launchconfiguration",
+                        "OptionName": "InstanceType",
+                        "Value": "t3.micro"
+                    },
+                    {
+                        "Namespace": "aws:autoscaling:launchconfiguration",
+                        "OptionName": "SecurityGroups",
+                        "Value": {
+                            "Ref": "InstanceSecurityGroup"
+                        }
+                    },
+                    {
+                        "Namespace": "aws:autoscaling:launchconfiguration",
+                        "OptionName": "IamInstanceProfile",
+                        "Value": {
+                            "Ref": "InstanceProfile"
+                        }
+                    },
+                    {
+                        "Namespace": "aws:autoscaling:updatepolicy:rollingupdate",
+                        "OptionName": "RollingUpdateEnabled",
+                        "Value": "true"
+                    },
+                    {
+                        "Namespace": "aws:autoscaling:updatepolicy:rollingupdate",
+                        "OptionName": "RollingUpdateType",
+                        "Value": "Health"
+                    },
+                    {
+                        "Namespace": "aws:elasticbeanstalk:command",
+                        "OptionName": "BatchSize",
+                        "Value": "1"
+                    },
+                    {
+                        "Namespace": "aws:autoscaling:asg",
+                        "OptionName": "MinSize",
+                        "Value": "1"
+                    },
+                    {
+                        "Namespace": "aws:autoscaling:asg",
+                        "OptionName": "MaxSize",
+                        "Value": "6"
+                    },
+                    {
+                        "Namespace": "aws:elasticbeanstalk:environment",
+                        "OptionName": "EnvironmentType",
+                        "Value": "LoadBalanced"
+                    },
+                    {
+                        "Namespace": "aws:elasticbeanstalk:environment",
+                        "OptionName": "LoadBalancerType",
+                        "Value": "application"
+                    },
+                    {
+                        "Namespace": "aws:elasticbeanstalk:environment:process:default",
+                        "OptionName": "DeregistrationDelay",
+                        "Value": "30"
+                    },
+                    {
+                        "Namespace": "aws:elasticbeanstalk:environment:process:default",
+                        "OptionName": "HealthCheckInterval",
+                        "Value": "15"
+                    },
+                    {
+                        "Namespace": "aws:elasticbeanstalk:environment:process:default",
+                        "OptionName": "HealthCheckPath",
+                        "Value": "/"
+                    },
+                    {
+                        "Namespace": "aws:elasticbeanstalk:environment:process:default",
+                        "OptionName": "HealthCheckTimeout",
+                        "Value": "5"
+                    },
+                    {
+                        "Namespace": "aws:elasticbeanstalk:environment:process:default",
+                        "OptionName": "HealthyThresholdCount",
+                        "Value": "5"
+                    },
+                    {
+                        "Namespace": "aws:elasticbeanstalk:environment:process:default",
+                        "OptionName": "UnhealthyThresholdCount",
+                        "Value": "3"
+                    },
+                    {
+                        "Namespace": "aws:elbv2:listener:80",
+                        "OptionName": "ListenerEnabled",
+                        "Value": "true"
+                    },
+                    {
+                        "Namespace": "aws:elbv2:listener:80",
+                        "OptionName": "Protocol",
+                        "Value": "HTTP"
+                    },
+                    {
+                        "Namespace": "aws:elbv2:listener:80",
+                        "OptionName": "DefaultProcess",
+                        "Value": "default"
+                    },
+                    {
+                        "Namespace": "aws:elasticbeanstalk:application:environment",
+                        "OptionName": "APP_ENV",
+                        "Value": "production"
+                    },
+                    {
+                        "Namespace": "aws:elasticbeanstalk:application:environment",
+                        "OptionName": "INSTANCE_ID",
+                        "Value": "90000"
+                    }
+                ]
+            }
+        },
+        "CodePipelineServiceRole": {
+            "Type": "AWS::IAM::Role",
+            "Properties": {
+                "AssumeRolePolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Effect": "Allow",
+                            "Principal": {
+                                "Service": [
+                                    "codepipeline.amazonaws.com"
+                                ]
+                            },
+                            "Action": "sts:AssumeRole"
+                        }
+                    ]
+                },
+                "Path": "/",
+                "Policies": [
+                    {
+                        "PolicyName": "AWS-CodePipeline-Service-3",
+                        "PolicyDocument": {
+                            "Version": "2012-10-17",
+                            "Statement": [
+                                {
+                                    "Effect": "Allow",
+                                    "Action": [
+                                        "codebuild:BatchGetBuilds",
+                                        "codebuild:StartBuild"
+                                    ],
+                                    "Resource": "*"
+                                },
+                                {
+                                    "Effect": "Allow",
+                                    "Action": [
+                                        "iam:PassRole"
+                                    ],
+                                    "Resource": "*"
+                                },
+                                {
+                                    "Effect": "Allow",
+                                    "Action": [
+                                        "elasticbeanstalk:*",
+                                        "ec2:*",
+                                        "elasticloadbalancing:*",
+                                        "autoscaling:*",
+                                        "cloudwatch:*",
+                                        "s3:*",
+                                        "sns:*",
+                                        "cloudformation:*"
+                                    ],
+                                    "Resource": "*"
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        "CodePipelineArtifactStoreBucket": {
+            "Type": "AWS::S3::Bucket"
+        },
+        "PhotoStorageBucket": {
+            "Type": "AWS::S3::Bucket"
+        },
+        "CodePipelineArtifactStoreBucketPolicy": {
+            "Type": "AWS::S3::BucketPolicy",
+            "Properties": {
+                "Bucket": {
+                    "Ref": "CodePipelineArtifactStoreBucket"
+                },
+                "PolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Sid": "DenyUnEncryptedObjectUploads",
+                            "Effect": "Deny",
+                            "Principal": "*",
+                            "Action": "s3:PutObject",
+                            "Resource": {
+                                "Fn::Join": [
+                                    "",
+                                    [
+                                        {
+                                            "Fn::GetAtt": [
+                                                "CodePipelineArtifactStoreBucket",
+                                                "Arn"
+                                            ]
+                                        },
+                                        "/*"
+                                    ]
+                                ]
+                            },
+                            "Condition": {
+                                "StringNotEquals": {
+                                    "s3:x-amz-server-side-encryption": "aws:kms"
+                                }
+                            }
+                        },
+                        {
+                            "Sid": "DenyInsecureConnections",
+                            "Effect": "Deny",
+                            "Principal": "*",
+                            "Action": "s3:*",
+                            "Resource": {
+                                "Fn::Join": [
+                                    "",
+                                    [
+                                        {
+                                            "Fn::GetAtt": [
+                                                "CodePipelineArtifactStoreBucket",
+                                                "Arn"
+                                            ]
+                                        },
+                                        "/*"
+                                    ]
+                                ]
+                            },
+                            "Condition": {
+                                "Bool": {
+                                    "aws:SecureTransport": false
+                                }
+                            }
+                        }
+                    ]
+                }
+            }
+        },
+        "CodeBuildRole": {
+            "Type": "AWS::IAM::Role",
+            "Properties": {
+                "AssumeRolePolicyDocument": {
+                    "Statement": [
+                        {
+                            "Action": [
+                                "sts:AssumeRole"
+                            ],
+                            "Effect": "Allow",
+                            "Principal": {
+                                "Service": [
+                                    "codebuild.amazonaws.com"
+                                ]
+                            }
+                        }
+                    ],
+                    "Version": "2012-10-17"
+                },
+                "Path": "/",
+                "Policies": [
+                    {
+                        "PolicyName": "CodeBuildAccess",
+                        "PolicyDocument": {
+                            "Version": "2012-10-17",
+                            "Statement": [
+                                {
+                                    "Effect": "Allow",
+                                    "Action": [
+                                        "logs:CreateLogGroup",
+                                        "logs:CreateLogStream",
+                                        "logs:PutLogEvents"
+                                    ],
+                                    "Resource": [
+                                        {
+                                            "Fn::Join": [
+                                                "",
+                                                [
+                                                    {
+                                                        "Fn::Join": [
+                                                            "",
+                                                            [
+                                                                "arn:aws:logs:",
+                                                                {
+                                                                    "Ref": "AWS::Region"
+                                                                },
+                                                                ":"
+                                                            ]
+                                                        ]
+                                                    },
+                                                    {
+                                                        "Ref": "AWS::AccountId"
+                                                    },
+                                                    ":log-group:/aws/codebuild/*"
+                                                ]
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "Effect": "Allow",
+                                    "Action": [
+                                        "s3:PutObject",
+                                        "s3:GetObject",
+                                        "s3:GetObjectVersion",
+                                        "s3:GetBucketAcl",
+                                        "s3:GetBucketLocation"
+                                    ],
+                                    "Resource": [
+                                        {
+                                            "Fn::GetAtt": [
+                                                "CodePipelineArtifactStoreBucket",
+                                                "Arn"
+                                            ]
+                                        },
+                                        {
+                                            "Fn::Join": [
+                                                "",
+                                                [
+                                                    {
+                                                        "Fn::GetAtt": [
+                                                            "CodePipelineArtifactStoreBucket",
+                                                            "Arn"
+                                                        ]
+                                                    },
+                                                    "/*"
+                                                ]
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "Effect": "Allow",
+                                    "Action": [
+                                        "codebuild:CreateReportGroup",
+                                        "codebuild:CreateReport",
+                                        "codebuild:UpdateReport",
+                                        "codebuild:BatchPutTestCases",
+                                        "codebuild:BatchPutCodeCoverages"
+                                    ],
+                                    "Resource": [
+                                        {
+                                            "Fn::Join": [
+                                                "",
+                                                [
+                                                    {
+                                                        "Fn::Join": [
+                                                            "",
+                                                            [
+                                                                "arn:aws:codebuild:",
+                                                                {
+                                                                    "Ref": "AWS::Region"
+                                                                },
+                                                                ":"
+                                                            ]
+                                                        ]
+                                                    },
+                                                    {
+                                                        "Ref": "AWS::AccountId"
+                                                    },
+                                                    ":report-group/CodeBuild-*"
+                                                ]
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        "CodeBuild": {
+            "Type": "AWS::CodeBuild::Project",
+            "Properties": {
+                "ServiceRole": {
+                    "Ref": "CodeBuildRole"
+                },
+                "Artifacts": {
+                    "Type": "CODEPIPELINE"
+                },
+                "Environment": {
+                    "ComputeType": "BUILD_GENERAL1_SMALL",
+                    "Image": "aws/codebuild/amazonlinux2-x86_64-standard:3.0",
+                    "Type": "LINUX_CONTAINER"
+                },
+                "Source": {
+                    "Type": "CODEPIPELINE"
+                }
+            }
+        },
+        "CodePipeline": {
+            "Type": "AWS::CodePipeline::Pipeline",
+            "Properties": {
+                "RoleArn": {
+                    "Fn::GetAtt": [
+                        "CodePipelineServiceRole",
+                        "Arn"
+                    ]
+                },
+                "Stages": [
+                    {
+                        "Name": "Source",
+                        "Actions": [
+                            {
+                                "Name": "SourceAction",
+                                "ActionTypeId": {
+                                    "Category": "Source",
+                                    "Owner": "ThirdParty",
+                                    "Version": 1,
+                                    "Provider": "GitHub"
+                                },
+                                "Configuration": {
+                                    "Owner": "JackPriceBurns",
+                                    "Repo": "tech-talk-project",
+                                    "PollForSourceChanges": "true",
+                                    "Branch": "master",
+                                    "OAuthToken": "{{resolve:secretsmanager:GitHubSecret:SecretString:token}}"
+                                },
+                                "OutputArtifacts": [
+                                    {
+                                        "Name": "SourceOutput"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "Name": "Build",
+                        "Actions": [
+                            {
+                                "Name": "BuildAction",
+                                "ActionTypeId": {
+                                    "Category": "Build",
+                                    "Owner": "AWS",
+                                    "Version": 1,
+                                    "Provider": "CodeBuild"
+                                },
+                                "Configuration": {
+                                    "ProjectName": {
+                                        "Ref": "CodeBuild"
+                                    },
+                                    "PrimarySource": "SourceOutput"
+                                },
+                                "InputArtifacts": [
+                                    {
+                                        "Name": "SourceOutput"
+                                    }
+                                ],
+                                "OutputArtifacts": [
+                                    {
+                                        "Name": "BuildOutput"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "Name": "Deploy",
+                        "Actions": [
+                            {
+                                "Name": "DeployAction",
+                                "ActionTypeId": {
+                                    "Category": "Deploy",
+                                    "Owner": "AWS",
+                                    "Version": 1,
+                                    "Provider": "ElasticBeanstalk"
+                                },
+                                "Configuration": {
+                                    "ApplicationName": {
+                                        "Ref": "EBApplication"
+                                    },
+                                    "EnvironmentName": {
+                                        "Ref": "EBEnvironment"
+                                    }
+                                },
+                                "InputArtifacts": [
+                                    {
+                                        "Name": "BuildOutput"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "ArtifactStore": {
+                    "Type": "S3",
+                    "Location": {
+                        "Ref": "CodePipelineArtifactStoreBucket"
+                    }
+                }
+            }
+        }
+    }
+}
