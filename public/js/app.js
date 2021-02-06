@@ -1895,6 +1895,18 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'PhotoUpload',
   filters: {
@@ -1916,9 +1928,13 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     addFile: function addFile(event) {
       var _this = this;
 
-      var droppedFiles = event.dataTransfer.files; // If there is no file.
+      var droppedFiles = this.getFiles(event); // If there is no file.
 
       if (!droppedFiles) {
+        return;
+      }
+
+      if (droppedFiles.length < 1) {
         return;
       } // Only one file please.
 
@@ -1936,7 +1952,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
 
       _.each(_toConsumableArray(droppedFiles), function (file) {
-        _this.files.push(file);
+        return _this.files.push(file);
       });
     },
     upload: function upload() {},
@@ -1944,6 +1960,17 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       this.files = this.files.filter(function (f) {
         return f !== file;
       });
+    },
+    getFiles: function getFiles(event) {
+      if (event.dataTransfer) {
+        return event.dataTransfer.files;
+      }
+
+      if (event.target && event.target.id === 'fileInput') {
+        return event.target.files;
+      }
+
+      return [];
     }
   }
 });
@@ -19604,7 +19631,12 @@ var render = function() {
           "div",
           {
             staticClass:
-              "border-2 border-dashed p-8 text-center border-gray-300"
+              "border-2 border-dashed p-8 text-center border-gray-300 cursor-pointer",
+            on: {
+              click: function($event) {
+                return _vm.$refs.fileInput.click()
+              }
+            }
           },
           [
             _c("div", { staticClass: "flex justify-center" }, [
@@ -19638,30 +19670,68 @@ var render = function() {
           ]
         ),
         _vm._v(" "),
+        _c("input", {
+          ref: "fileInput",
+          staticClass: "hidden",
+          attrs: { id: "fileInput", type: "file" },
+          on: { change: _vm.addFile }
+        }),
+        _vm._v(" "),
         _c(
           "ul",
           _vm._l(_vm.files, function(file) {
-            return _c("li", { staticClass: "bg-gray-100 p-2 mt-1 rounded" }, [
-              _vm._v(
-                "\n                " +
-                  _vm._s(file.name) +
-                  " (" +
-                  _vm._s(_vm._f("kb")(file.size)) +
-                  " kb)\n                "
-              ),
-              _c(
-                "button",
-                {
-                  attrs: { title: "Remove" },
-                  on: {
-                    click: function($event) {
-                      return _vm.removeFile(file)
+            return _c(
+              "li",
+              { staticClass: "bg-gray-100 p-2 mt-1 rounded flex" },
+              [
+                _c("span", { staticClass: "flex-grow" }, [
+                  _c("span", { staticClass: "font-bold" }, [
+                    _vm._v(_vm._s(file.name))
+                  ]),
+                  _vm._v(
+                    "\n                    (" +
+                      _vm._s(_vm._f("kb")(file.size)) +
+                      " kb)\n                "
+                  )
+                ]),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "w-6",
+                    attrs: { title: "Remove" },
+                    on: {
+                      click: function($event) {
+                        return _vm.removeFile(file)
+                      }
                     }
-                  }
-                },
-                [_vm._v("X")]
-              )
-            ])
+                  },
+                  [
+                    _c(
+                      "svg",
+                      {
+                        attrs: {
+                          xmlns: "http://www.w3.org/2000/svg",
+                          fill: "none",
+                          viewBox: "0 0 24 24",
+                          stroke: "currentColor"
+                        }
+                      },
+                      [
+                        _c("path", {
+                          attrs: {
+                            "stroke-linecap": "round",
+                            "stroke-linejoin": "round",
+                            "stroke-width": "2",
+                            d: "M6 18L18 6M6 6l12 12"
+                          }
+                        })
+                      ]
+                    )
+                  ]
+                )
+              ]
+            )
           }),
           0
         ),
@@ -19671,8 +19741,8 @@ var render = function() {
           {
             staticClass: "w-full p-2 mt-2 text-white rounded",
             class: _vm.uploadDisabled
-              ? "bg-blue-300 cursor-not-allowed"
-              : "bg-blue-600",
+              ? "bg-gray-300 cursor-not-allowed"
+              : "bg-gray-600",
             attrs: { disabled: _vm.uploadDisabled },
             on: { click: _vm.upload }
           },

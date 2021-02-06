@@ -6,7 +6,8 @@
         </div>
 
         <div class="p-4">
-            <div class="border-2 border-dashed p-8 text-center border-gray-300">
+            <div class="border-2 border-dashed p-8 text-center border-gray-300 cursor-pointer"
+                 @click="$refs.fileInput.click()">
                 <div class="flex justify-center">
                     <div class="w-48 text-gray-300">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -19,17 +20,28 @@
                 <p><span class="font-bold">Drag and drop</span> to upload a file or click to upload manually</p>
             </div>
 
+            <input id="fileInput" ref="fileInput" type="file" class="hidden" v-on:change="addFile"/>
+
             <ul>
-                <li v-for="file in files" class="bg-gray-100 p-2 mt-1 rounded">
-                    {{ file.name }} ({{ file.size | kb }} kb)
-                    <button @click="removeFile(file)" title="Remove">X</button>
+                <li v-for="file in files" class="bg-gray-100 p-2 mt-1 rounded flex">
+                    <span class="flex-grow">
+                        <span class="font-bold">{{ file.name }}</span>
+                        ({{ file.size | kb }} kb)
+                    </span>
+
+                    <button @click="removeFile(file)" title="Remove" class="w-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </button>
                 </li>
             </ul>
 
             <button :disabled="uploadDisabled"
                     @click="upload"
                     class="w-full p-2 mt-2 text-white rounded"
-                    :class="uploadDisabled ? 'bg-blue-300 cursor-not-allowed' : 'bg-blue-600'">
+                    :class="uploadDisabled ? 'bg-gray-300 cursor-not-allowed' : 'bg-gray-600'">
                 Upload
             </button>
         </div>
@@ -60,10 +72,14 @@ export default {
 
     methods: {
         addFile(event) {
-            let droppedFiles = event.dataTransfer.files;
+            let droppedFiles = this.getFiles(event);
 
             // If there is no file.
             if (!droppedFiles) {
+                return;
+            }
+
+            if (droppedFiles.length < 1) {
                 return;
             }
 
@@ -82,9 +98,7 @@ export default {
             }
 
             // Add dropped files.
-            _.each([...droppedFiles], file => {
-                this.files.push(file);
-            });
+            _.each([...droppedFiles], file => this.files.push(file));
         },
 
         upload() {
@@ -95,6 +109,18 @@ export default {
             this.files = this.files.filter(f => {
                 return f !== file;
             });
+        },
+
+        getFiles(event) {
+            if (event.dataTransfer) {
+                return event.dataTransfer.files;
+            }
+
+            if (event.target && event.target.id === 'fileInput') {
+                return event.target.files;
+            }
+
+            return [];
         },
     },
 };

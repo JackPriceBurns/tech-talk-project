@@ -1,6 +1,6 @@
 <div class="w-full shadow flex justify-center bg-white">
     <div class="container flex justify-between">
-        <a href="{{ route('home') }}" class="p-6 bg-blue-600">
+        <a href="{{ route('home') }}" class="p-6 bg-gray-800">
             <span class="font-mono font-bold text-white">Tech Talk</span>
         </a>
 
