@@ -1834,6 +1834,122 @@ module.exports = {
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/PhotoUpload.vue?vue&type=script&lang=js&":
+/*!******************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/PhotoUpload.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: 'PhotoUpload',
+  filters: {
+    kb: function kb(value) {
+      return Math.floor(value / 1024);
+    }
+  },
+  data: function data() {
+    return {
+      files: []
+    };
+  },
+  computed: {
+    uploadDisabled: function uploadDisabled() {
+      return this.files.length === 0;
+    }
+  },
+  methods: {
+    addFile: function addFile(event) {
+      var _this = this;
+
+      var droppedFiles = event.dataTransfer.files; // If there is no file.
+
+      if (!droppedFiles) {
+        return;
+      } // Only one file please.
+
+
+      if (this.files.length >= 1) {
+        alert('Please only upload one file.');
+        return;
+      } // Only drag one file at a time please.
+
+
+      if (droppedFiles.length > 1) {
+        alert('Please only drag one file at a time.');
+        return;
+      } // Add dropped files.
+
+
+      _.each(_toConsumableArray(droppedFiles), function (file) {
+        _this.files.push(file);
+      });
+    },
+    upload: function upload() {},
+    removeFile: function removeFile(file) {
+      this.files = this.files.filter(function (f) {
+        return f !== file;
+      });
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Photos.vue?vue&type=script&lang=js&":
 /*!*************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Photos.vue?vue&type=script&lang=js& ***!
@@ -1884,6 +2000,7 @@ var Vue = window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/v
 
 
 Vue.component('photos', __webpack_require__(/*! ./components/Photos.vue */ "./resources/js/components/Photos.vue").default);
+Vue.component('photo-upload', __webpack_require__(/*! ./components/PhotoUpload.vue */ "./resources/js/components/PhotoUpload.vue").default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -19298,6 +19415,45 @@ process.umask = function() { return 0; };
 
 /***/ }),
 
+/***/ "./resources/js/components/PhotoUpload.vue":
+/*!*************************************************!*\
+  !*** ./resources/js/components/PhotoUpload.vue ***!
+  \*************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _PhotoUpload_vue_vue_type_template_id_48feb790___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./PhotoUpload.vue?vue&type=template&id=48feb790& */ "./resources/js/components/PhotoUpload.vue?vue&type=template&id=48feb790&");
+/* harmony import */ var _PhotoUpload_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./PhotoUpload.vue?vue&type=script&lang=js& */ "./resources/js/components/PhotoUpload.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__.default)(
+  _PhotoUpload_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
+  _PhotoUpload_vue_vue_type_template_id_48feb790___WEBPACK_IMPORTED_MODULE_0__.render,
+  _PhotoUpload_vue_vue_type_template_id_48feb790___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/PhotoUpload.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/js/components/Photos.vue":
 /*!********************************************!*\
   !*** ./resources/js/components/Photos.vue ***!
@@ -19337,6 +19493,22 @@ component.options.__file = "resources/js/components/Photos.vue"
 
 /***/ }),
 
+/***/ "./resources/js/components/PhotoUpload.vue?vue&type=script&lang=js&":
+/*!**************************************************************************!*\
+  !*** ./resources/js/components/PhotoUpload.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_PhotoUpload_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./PhotoUpload.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/PhotoUpload.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_PhotoUpload_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
+
+/***/ }),
+
 /***/ "./resources/js/components/Photos.vue?vue&type=script&lang=js&":
 /*!*********************************************************************!*\
   !*** ./resources/js/components/Photos.vue?vue&type=script&lang=js& ***!
@@ -19353,6 +19525,23 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/PhotoUpload.vue?vue&type=template&id=48feb790&":
+/*!********************************************************************************!*\
+  !*** ./resources/js/components/PhotoUpload.vue?vue&type=template&id=48feb790& ***!
+  \********************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PhotoUpload_vue_vue_type_template_id_48feb790___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PhotoUpload_vue_vue_type_template_id_48feb790___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PhotoUpload_vue_vue_type_template_id_48feb790___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./PhotoUpload.vue?vue&type=template&id=48feb790& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/PhotoUpload.vue?vue&type=template&id=48feb790&");
+
+
+/***/ }),
+
 /***/ "./resources/js/components/Photos.vue?vue&type=template&id=5d4a0e2c&":
 /*!***************************************************************************!*\
   !*** ./resources/js/components/Photos.vue?vue&type=template&id=5d4a0e2c& ***!
@@ -19366,6 +19555,146 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Photos_vue_vue_type_template_id_5d4a0e2c___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
 /* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Photos_vue_vue_type_template_id_5d4a0e2c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Photos.vue?vue&type=template&id=5d4a0e2c& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Photos.vue?vue&type=template&id=5d4a0e2c&");
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/PhotoUpload.vue?vue&type=template&id=48feb790&":
+/*!***********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/PhotoUpload.vue?vue&type=template&id=48feb790& ***!
+  \***********************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    {
+      staticClass: "bg-white rounded-none sm:rounded shadow-lg mt-8",
+      on: {
+        drop: function($event) {
+          $event.preventDefault()
+          return _vm.addFile($event)
+        },
+        dragover: function($event) {
+          $event.preventDefault()
+        }
+      }
+    },
+    [
+      _c(
+        "div",
+        {
+          staticClass:
+            "p-4 font-bold bg-gray-800 rounded-none sm:rounded-t text-white"
+        },
+        [_vm._v("\n        Upload Photo\n    ")]
+      ),
+      _vm._v(" "),
+      _c("div", { staticClass: "p-4" }, [
+        _c(
+          "div",
+          {
+            staticClass:
+              "border-2 border-dashed p-8 text-center border-gray-300"
+          },
+          [
+            _c("div", { staticClass: "flex justify-center" }, [
+              _c("div", { staticClass: "w-48 text-gray-300" }, [
+                _c(
+                  "svg",
+                  {
+                    attrs: {
+                      xmlns: "http://www.w3.org/2000/svg",
+                      fill: "none",
+                      viewBox: "0 0 24 24",
+                      stroke: "currentColor"
+                    }
+                  },
+                  [
+                    _c("path", {
+                      attrs: {
+                        "stroke-linecap": "round",
+                        "stroke-linejoin": "round",
+                        "stroke-width": "2",
+                        d:
+                          "M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                      }
+                    })
+                  ]
+                )
+              ])
+            ]),
+            _vm._v(" "),
+            _vm._m(0)
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "ul",
+          _vm._l(_vm.files, function(file) {
+            return _c("li", { staticClass: "bg-gray-100 p-2 mt-1 rounded" }, [
+              _vm._v(
+                "\n                " +
+                  _vm._s(file.name) +
+                  " (" +
+                  _vm._s(_vm._f("kb")(file.size)) +
+                  " kb)\n                "
+              ),
+              _c(
+                "button",
+                {
+                  attrs: { title: "Remove" },
+                  on: {
+                    click: function($event) {
+                      return _vm.removeFile(file)
+                    }
+                  }
+                },
+                [_vm._v("X")]
+              )
+            ])
+          }),
+          0
+        ),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass: "w-full p-2 mt-2 text-white rounded",
+            class: _vm.uploadDisabled
+              ? "bg-blue-300 cursor-not-allowed"
+              : "bg-blue-600",
+            attrs: { disabled: _vm.uploadDisabled },
+            on: { click: _vm.upload }
+          },
+          [_vm._v("\n            Upload\n        ")]
+        )
+      ])
+    ]
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("p", [
+      _c("span", { staticClass: "font-bold" }, [_vm._v("Drag and drop")]),
+      _vm._v(" to upload a file or click to upload manually")
+    ])
+  }
+]
+render._withStripped = true
+
 
 
 /***/ }),

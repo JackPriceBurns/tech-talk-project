@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\PhotoController;
 use Illuminate\Routing\Router;
 
 /*
@@ -18,6 +19,8 @@ use Illuminate\Routing\Router;
 /** @var Router $router */
 
 $router->view('/', 'welcome')->name('home');
+
+$router->resource('photos', PhotoController::class)->only('index', 'create', 'store');
 
 $router->get('auth/login', LoginController::class . '@index')->name('auth.login');
 $router->post('auth/login', LoginController::class . '@attempt');
