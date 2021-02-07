@@ -61,12 +61,13 @@ export default {
     data() {
         return {
             files: [],
+            uploading: false,
         };
     },
 
     computed: {
         uploadDisabled() {
-            return this.files.length === 0;
+            return this.files.length === 0 || this.uploading;
         },
     },
 
@@ -109,7 +110,11 @@ export default {
             });
         },
 
-        upload() {
+        async upload() {
+            if (this.uploading) {
+                return;
+            }
+
             let formData = new FormData();
 
             if (this.files.length !== 1) {
@@ -118,12 +123,17 @@ export default {
 
             formData.append('file', this.files[0]);
 
-            axios.post('/photos', formData)
-                .then(res => console.log(res))
-                .then(res => console.log(res))
-                .catch(e => {
-                    console.error(JSON.stringify(e.message));
-                });
+            this.uploading = true;
+
+            try {
+                await axios.post('/photos', formData);
+
+                this.uploading = false;
+
+                window.location.href = '/';
+            } catch (error) {
+                console.error(JSON.stringify(e.message));
+            }
         },
 
         removeFile(file) {

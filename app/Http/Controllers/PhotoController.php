@@ -18,9 +18,7 @@ class PhotoController extends Controller
      */
     public function index()
     {
-        return PhotoResource::collection(
-            Photo::all()
-        );
+        return PhotoResource::collection(Photo::query()->orderByDesc('created_at')->get());
     }
 
     /**

@@ -35,12 +35,4 @@ class PhotoUploaded implements ShouldBroadcast
     {
         return ['main-channel'];
     }
-
-    /**
-     * @return string
-     */
-    public function broadcastAs(): string
-    {
-        return 'photo-uploaded';
-    }
 }
