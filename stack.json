@@ -312,13 +312,25 @@
                 }
             }
         },
-        "DBSecretPassword": {
+        "DBPasswordSecret": {
             "Type": "AWS::SecretsManager::Secret",
             "Properties": {
                 "Description": "This is my RDS Instance Secret",
                 "GenerateSecretString": {
                     "SecretStringTemplate": "{\"username\": \"root\"}",
                     "GenerateStringKey": "password",
+                    "PasswordLength": 16,
+                    "ExcludeCharacters": "\"@/\\"
+                }
+            }
+        },
+        "AppKeySecret": {
+            "Type": "AWS::SecretsManager::Secret",
+            "Properties": {
+                "Description": "This is the secret key for Laravel.",
+                "GenerateSecretString": {
+                    "SecretStringTemplate": "{}",
+                    "GenerateStringKey": "key",
                     "PasswordLength": 16,
                     "ExcludeCharacters": "\"@/\\"
                 }
@@ -382,10 +394,10 @@
                     }
                 ],
                 "MasterUsername": {
-                    "Fn::Sub": "{{resolve:secretsmanager:${DBSecretPassword}::username}}"
+                    "Fn::Sub": "{{resolve:secretsmanager:${DBPasswordSecret}::username}}"
                 },
                 "MasterUserPassword": {
-                    "Fn::Sub": "{{resolve:secretsmanager:${DBSecretPassword}::password}}"
+                    "Fn::Sub": "{{resolve:secretsmanager:${DBPasswordSecret}::password}}"
                 },
                 "DBSubnetGroupName": {
                     "Ref": "DBSubnetGroup"
@@ -723,12 +735,125 @@
                     {
                         "Namespace": "aws:elasticbeanstalk:application:environment",
                         "OptionName": "APP_KEY",
-                        "Value": "production"
+                        "Value": {
+                            "Fn::Sub": "{{resolve:secretsmanager:${AppKeySecret}::key}}"
+                        }
                     },
                     {
                         "Namespace": "aws:elasticbeanstalk:application:environment",
                         "OptionName": "APP_DEBUG",
                         "Value": "false"
+                    },
+                    {
+                        "Namespace": "aws:elasticbeanstalk:application:environment",
+                        "OptionName": "DB_CONNECTION",
+                        "Value": "mysql"
+                    },
+                    {
+                        "Namespace": "aws:elasticbeanstalk:application:environment",
+                        "OptionName": "DB_HOST",
+                        "Value": {
+                            "Fn::GetAtt": [
+                                "DBInstance",
+                                "Endpoint.Address"
+                            ]
+                        }
+                    },
+                    {
+                        "Namespace": "aws:elasticbeanstalk:application:environment",
+                        "OptionName": "DB_PORT",
+                        "Value": {
+                            "Fn::GetAtt": [
+                                "DBInstance",
+                                "Endpoint.Port"
+                            ]
+                        }
+                    },
+                    {
+                        "Namespace": "aws:elasticbeanstalk:application:environment",
+                        "OptionName": "DB_DATABASE",
+                        "Value": "production"
+                    },
+                    {
+                        "Namespace": "aws:elasticbeanstalk:application:environment",
+                        "OptionName": "DB_USERNAME",
+                        "Value": {
+                            "Fn::Sub": "{{resolve:secretsmanager:${DBPasswordSecret}::username}}"
+                        }
+                    },
+                    {
+                        "Namespace": "aws:elasticbeanstalk:application:environment",
+                        "OptionName": "DB_PASSWORD",
+                        "Value": {
+                            "Fn::Sub": "{{resolve:secretsmanager:${DBPasswordSecret}::password}}"
+                        }
+                    },
+                    {
+                        "Namespace": "aws:elasticbeanstalk:application:environment",
+                        "OptionName": "BROADCAST_DRIVER",
+                        "Value": "pusher"
+                    },
+                    {
+                        "Namespace": "aws:elasticbeanstalk:application:environment",
+                        "OptionName": "CACHE_DRIVER",
+                        "Value": "memcached"
+                    },
+                    {
+                        "Namespace": "aws:elasticbeanstalk:application:environment",
+                        "OptionName": "SESSION_DRIVER",
+                        "Value": "memcached"
+                    },
+                    {
+                        "Namespace": "aws:elasticbeanstalk:application:environment",
+                        "OptionName": "MEMCACHED_HOST",
+                        "Value": {
+                            "Fn::GetAtt": [
+                                "ElastiCacheCluster",
+                                "ConfigurationEndpoint.Address"
+                            ]
+                        }
+                    },
+                    {
+                        "Namespace": "aws:elasticbeanstalk:application:environment",
+                        "OptionName": "AWS_DEFAULT_REGION",
+                        "Value": {
+                            "Ref": "AWS::Region"
+                        }
+                    },
+                    {
+                        "Namespace": "aws:elasticbeanstalk:application:environment",
+                        "OptionName": "AWS_BUCKET",
+                        "Value": {
+                            "Ref": "PhotoStorageBucket"
+                        }
+                    },
+                    {
+                        "Namespace": "aws:elasticbeanstalk:application:environment",
+                        "OptionName": "PUSHER_APP_ID",
+                        "Value": {
+                            "Fn::Sub": "{{resolve:secretsmanager:PusherSecrets::id}}"
+                        }
+                    },
+                    {
+                        "Namespace": "aws:elasticbeanstalk:application:environment",
+                        "OptionName": "PUSHER_APP_KEY",
+                        "Value": {
+                            "Fn::Sub": "{{resolve:secretsmanager:PusherSecrets::key}}"
+                        }
+                    },
+                    {
+                        "Namespace": "aws:elasticbeanstalk:application:environment",
+                        "OptionName": "PUSHER_APP_SECRET",
+                        "Value": {
+                            "Fn::Sub": "{{resolve:secretsmanager:PusherSecrets::secret}}"
+                        }
+                    },
+                    {
+                        "Namespace": "aws:elasticbeanstalk:application:environment",
+                        "OptionName": "PUSHER_APP_CLUSTER",
+                        "Value": {
+                            "Fn::Sub": "{{resolve:secretsmanager:PusherSecrets::cluster}}"
+                        }
                     }
                 ]
             }
