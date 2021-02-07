@@ -26,4 +26,3 @@ artifacts:
     - 'storage/**/*'
     - 'vendor/**/*'
     - 'artisan'
-    - 'Buildfile'
