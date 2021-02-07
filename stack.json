@@ -986,6 +986,15 @@
                                             ]
                                         }
                                     ]
+                                },
+                                {
+                                    "Effect": "Allow",
+                                    "Action": [
+                                        "secretsmanager:GetSecretValue"
+                                    ],
+                                    "Resource": [
+                                        "arn:aws:secretsmanager:eu-west-1:378124860506:secret:PusherSecrets-4wk7pw"
+                                    ]
                                 }
                             ]
                         }
@@ -1112,7 +1121,8 @@
                         "Ref": "CodePipelineArtifactStoreBucket"
                     }
                 }
-            }
+            },
+            "DependsOn": "EBEnvironment"
         }
     }
 }
