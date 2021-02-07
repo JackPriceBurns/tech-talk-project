@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\HealthCheckController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PhotoController;
 use Illuminate\Routing\Router;
@@ -30,3 +31,6 @@ $router->middleware('auth:web')->group(
         $router->resource('admin', AdminController::class)->only('index');
     }
 );
+
+// Health Check for ELB
+$router->resource('health-check', HealthCheckController::class)->only('index');
