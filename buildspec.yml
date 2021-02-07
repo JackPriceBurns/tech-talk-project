@@ -15,6 +15,7 @@ phases:
       - npm run prod
 artifacts:
   files:
+    - '.ebextensions/**/*'
     - 'app/**/*'
     - 'bootstrap/**/*'
     - 'config/**/*'
