@@ -24,14 +24,14 @@
 
             <ul>
                 <li v-for="file in files" class="bg-gray-100 p-2 mt-1 rounded flex">
-                    <span class="flex-grow">
-                        <span class="font-bold">{{ file.name }}</span>
+                    <span class="flex-grow w-0 break-words">
+                        {{ file.name }}
                         ({{ file.size | kb }} kb)
                     </span>
 
-                    <button @click="removeFile(file)" title="Remove" class="w-6">
+                    <button @click="removeFile(file)" title="Remove" class="w-4">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
                                   d="M6 18L18 6M6 6l12 12"/>
                         </svg>
                     </button>
@@ -98,11 +98,32 @@ export default {
             }
 
             // Add dropped files.
-            _.each([...droppedFiles], file => this.files.push(file));
+            _.each([...droppedFiles], file => {
+                if (file.type !== 'image/jpeg' && file.type !== 'image/png') {
+                    alert('Please only upload images.');
+
+                    return;
+                }
+
+                this.files.push(file);
+            });
         },
 
         upload() {
+            let formData = new FormData();
 
+            if (this.files.length !== 1) {
+                return;
+            }
+
+            formData.append('file', this.files[0]);
+
+            axios.post('/photos', formData)
+                .then(res => console.log(res))
+                .then(res => console.log(res))
+                .catch(e => {
+                    console.error(JSON.stringify(e.message));
+                });
         },
 
         removeFile(file) {

@@ -2,6 +2,8 @@
 
 namespace App\Events;
 
+use App\Http\Resources\PhotoResource;
+use App\Models\Photo;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
@@ -13,19 +15,17 @@ class PhotoUploaded implements ShouldBroadcast
     use InteractsWithSockets;
     use SerializesModels;
 
-    /**
-     * @var string
-     */
-    public string $message;
+    /** @var string */
+    public $photo;
 
     /**
      * PhotoUploaded constructor.
      *
-     * @param string $message
+     * @param Photo $photo
      */
-    public function __construct(string $message)
+    public function __construct(Photo $photo)
     {
-        $this->message = $message;
+        $this->photo = json_encode(PhotoResource::make($photo));
     }
 
     /**
