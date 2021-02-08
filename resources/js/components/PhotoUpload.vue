@@ -100,7 +100,7 @@ export default {
 
             // Add dropped files.
             _.each([...droppedFiles], file => {
-                if (file.type !== 'image/jpeg' && file.type !== 'image/png') {
+                if (file.type !== 'image/jpeg' && file.type !== 'image/png' && file.type !== 'image/gif') {
                     alert('Please only upload images.');
 
                     return;

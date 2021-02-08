@@ -9,7 +9,7 @@ class PhotoStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'file' => 'required|file|mimes:jpg,png'
+            'file' => 'required|file|mimes:jpg,png,gif'
         ];
     }
 }
