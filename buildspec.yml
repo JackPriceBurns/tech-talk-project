@@ -1,8 +1,8 @@
 version: 0.2
 env:
   secrets-manager:
-    PUSHER_APP_KEY: 'PusherSecrets:key'
-    PUSHER_APP_CLUSTER: 'PusherSecrets:cluster'
+    MIX_PUSHER_APP_KEY: 'PusherSecrets:key'
+    MIX_PUSHER_APP_CLUSTER: 'PusherSecrets:cluster'
 phases:
   install:
     runtime-versions:
