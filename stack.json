@@ -324,18 +324,6 @@
                 }
             }
         },
-        "AppKeySecret": {
-            "Type": "AWS::SecretsManager::Secret",
-            "Properties": {
-                "Description": "This is the secret key for Laravel.",
-                "GenerateSecretString": {
-                    "SecretStringTemplate": "{}",
-                    "GenerateStringKey": "key",
-                    "PasswordLength": 16,
-                    "ExcludeCharacters": "\"@/\\"
-                }
-            }
-        },
         "DBSubnetGroup": {
             "Type": "AWS::RDS::DBSubnetGroup",
             "Properties": {
@@ -736,7 +724,7 @@
                         "Namespace": "aws:elasticbeanstalk:application:environment",
                         "OptionName": "APP_KEY",
                         "Value": {
-                            "Fn::Sub": "{{resolve:secretsmanager:${AppKeySecret}::key}}"
+                            "Fn::Sub": "{{resolve:secretsmanager:LaravelSecret::app_key}}"
                         }
                     },
                     {
