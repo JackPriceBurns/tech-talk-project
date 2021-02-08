@@ -2,9 +2,9 @@
     <div class="p-6">
         <h1 class="text-3xl mb-4">Uploaded Photos</h1>
 
-        <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
-            <div v-for="photo in photos">
-                <img :src="photo.url" class="w-full h-72 object-cover rounded-lg"/>
+        <div class="grid grid-cols-3 gap-4">
+            <div v-for="partition in partitionedPhotos">
+                <img :src="photo.url" class="w-full mt-4 object-cover rounded-lg" v-for="photo in partition"/>
             </div>
         </div>
     </div>
@@ -23,6 +23,25 @@ export default {
     mounted() {
         this.loadPhotos();
         this.setupWebsockets();
+    },
+
+    computed: {
+        partitionedPhotos() {
+            let index = 0;
+
+            return _.groupBy(
+                this.photos,
+                () => {
+                    if (index === 3) {
+                        index = 0;
+                    }
+
+                    index++;
+
+                    return (index - 1) % 3;
+                }
+            );
+        },
     },
 
     methods: {
