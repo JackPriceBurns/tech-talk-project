@@ -36,7 +36,9 @@
             "Properties": {
                 "ImageId": "ami-0fc970315c2d38f01",
                 "KeyName": "my-keypair",
-                "InstanceType": "t3.medium",
+                "InstanceType": {
+                    "Ref": "InstanceType"
+                },
                 "SecurityGroups": [
                     {
                         "Ref": "SecurityGroup"
@@ -61,6 +63,27 @@
     "Parameters": {
         "IPAddress": {
             "Type": "String"
+        },
+        "InstanceType": {
+            "Type": "String",
+            "Default": "t3.medium",
+            "AllowedValues": [
+                "t3.medium",
+                "t3.small",
+                "t3.micro",
+                "t3.nano"
+            ]
+        }
+    },
+    "Outputs": {
+        "TechTalkInstanceIP": {
+            "Description": "The Public IP of the new EC2 Instance.",
+            "Value": {
+                "Fn::GetAtt": [
+                    "Instance",
+                    "PublicIp"
+                ]
+            }
         }
     }
 }
