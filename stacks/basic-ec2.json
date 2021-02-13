@@ -1,0 +1,66 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Resources": {
+        "SecurityGroup": {
+            "Type": "AWS::EC2::SecurityGroup",
+            "Properties": {
+                "GroupDescription": "Instance Security Group",
+                "SecurityGroupIngress": [
+                    {
+                        "IpProtocol": "tcp",
+                        "FromPort": "22",
+                        "ToPort": "22",
+                        "CidrIp": {
+                            "Fn::Join": [
+                                "/",
+                                [
+                                    {
+                                        "Ref": "IPAddress"
+                                    },
+                                    "32"
+                                ]
+                            ]
+                        }
+                    },
+                    {
+                        "IpProtocol": "tcp",
+                        "FromPort": "80",
+                        "ToPort": "80",
+                        "CidrIp": "0.0.0.0/0"
+                    }
+                ]
+            }
+        },
+        "Instance": {
+            "Type": "AWS::EC2::Instance",
+            "Properties": {
+                "ImageId": "ami-0fc970315c2d38f01",
+                "KeyName": "my-keypair",
+                "InstanceType": "t3.medium",
+                "SecurityGroups": [
+                    {
+                        "Ref": "SecurityGroup"
+                    }
+                ],
+                "UserData": {
+                    "Fn::Base64": {
+                        "Fn::Join": [
+                            "",
+                            [
+                                "#!/bin/bash -xe\n",
+                                "amazon-linux-extras install -y nginx1.12\n",
+                                "service nginx start\n",
+                                "\n"
+                            ]
+                        ]
+                    }
+                }
+            }
+        }
+    },
+    "Parameters": {
+        "IPAddress": {
+            "Type": "String"
+        }
+    }
+}

@@ -909,7 +909,8 @@
             "Type": "AWS::S3::Bucket"
         },
         "PhotoStorageBucket": {
-            "Type": "AWS::S3::Bucket"
+            "Type": "AWS::S3::Bucket",
+            "DeletionPolicy": "Retain"
         },
         "CodePipelineArtifactStoreBucketPolicy": {
             "Type": "AWS::S3::BucketPolicy",
@@ -972,7 +973,8 @@
                         }
                     ]
                 }
-            }
+            },
+            "DeletionPolicy": "Retain"
         },
         "CodeBuildRole": {
             "Type": "AWS::IAM::Role",
