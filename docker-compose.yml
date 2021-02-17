@@ -1,0 +1,46 @@
+version: "3.7"
+services:
+    mysql:
+        container_name: tech_talk_mysql
+        environment:
+            MYSQL_DATABASE: tech_talk
+            MYSQL_PASSWORD: admin
+            MYSQL_ROOT_PASSWORD: admin
+            MYSQL_USER: admin
+        image: "mariadb:10.4"
+        ports:
+            - "3306:3306"
+        volumes:
+            - ./docker/volumes/mysql:/var/lib/mysql:consistent
+        networks:
+            api:
+                ipv4_address: 10.0.0.10
+    php:
+        build: ./docker/dockerfiles/php
+        container_name: tech_talk_php
+        depends_on:
+            - mysql
+        volumes:
+            - ./:/var/www:delegated
+        networks:
+            - api
+    api:
+        container_name: tech_talk_nginx
+        depends_on:
+            - mysql
+            - php
+        image: "nginx:latest"
+        ports:
+            - "80:80"
+        volumes:
+            - ./:/var/www:delegated
+            - ./docker/conf/nginx/site.conf:/etc/nginx/conf.d/default.conf:delegated
+        networks:
+            - api
+networks:
+    api:
+        name: tech_talk_network
+        driver: bridge
+        ipam:
+            config:
+                - subnet: 10.0.0.0/16
