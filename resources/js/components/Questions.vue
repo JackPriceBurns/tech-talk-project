@@ -14,27 +14,30 @@
             </button>
         </div>
 
-        <div v-for="question in sortedQuestions" class="p-4 bg-white rounded-lg shadow mb-2 flex flex-col">
-            <div class="flex">
-                <div class="w-full">
-                    {{ question.text }}
+        <transition-group tag="div" name="question-list">
+            <div v-for="question in sortedQuestions" :key="question.id"
+                 class="p-4 bg-white rounded-lg shadow mb-2 flex flex-col">
+                <div class="flex">
+                    <div class="w-full">
+                        {{ question.text }}
+                    </div>
+
+                    <div class="w-12 cursor-pointer flex" @click="voteFor(question)">
+                        <svg xmlns="http://www.w3.org/2000/svg" :fill="question.voted_by_me ? 'black' : 'none'"
+                             viewBox="0 0 24 24" stroke="currentColor" class="w-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                        </svg>
+
+                        <span class="text-center flex-grow">{{ question.votes }}</span>
+                    </div>
                 </div>
 
-                <div class="w-12 cursor-pointer flex" @click="voteFor(question)">
-                    <svg xmlns="http://www.w3.org/2000/svg" :fill="question.voted_by_me ? 'black' : 'none'"
-                         viewBox="0 0 24 24" stroke="currentColor" class="w-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
-                    </svg>
-
-                    <span class="text-center flex-grow">{{ question.votes }}</span>
+                <div class="text-gray-400 text-sm">
+                    {{ question.created_at | fromNow }}
                 </div>
             </div>
-
-            <div class="text-gray-400 text-sm">
-                {{ question.created_at | fromNow }}
-            </div>
-        </div>
+        </transition-group>
     </div>
 </template>
 
@@ -151,3 +154,9 @@ export default {
     },
 };
 </script>
+
+<style>
+.question-list-move {
+    transition: transform 1s;
+}
+</style>
