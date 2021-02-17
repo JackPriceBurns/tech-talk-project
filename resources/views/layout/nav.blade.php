@@ -5,6 +5,10 @@
         </a>
 
         <div class="flex">
+            <a href="{{ route('qa.index') }}" class="p-6 hover:font-bold">
+                <span>Q&A</span>
+            </a>
+
             <a href="{{ route('photos.create') }}" class="p-6 hover:font-bold">
                 <span>Upload</span>
             </a>

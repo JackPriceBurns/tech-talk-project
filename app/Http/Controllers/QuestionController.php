@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\QuestionCreated;
+use App\Events\QuestionUpdated;
 use App\Http\Requests\QuestionRequest;
 use App\Http\Resources\QuestionResource;
 use App\Models\Question;
@@ -38,9 +40,12 @@ class QuestionController extends Controller
      */
     public function store(QuestionRequest $request)
     {
+        /** @var Question $question */
         $question = Question::query()->create(
             $request->only('text', 'ip_address')
         );
+
+        event(new QuestionCreated($question));
 
         return QuestionResource::make($question->load('votes'));
     }
@@ -56,6 +61,8 @@ class QuestionController extends Controller
         $question = tap($question)->update(
             $request->only('text')
         );
+
+        event(new QuestionUpdated($question));
 
         return QuestionResource::make($question->load('votes'));
     }

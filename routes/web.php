@@ -5,6 +5,7 @@ use App\Http\Controllers\HealthCheckController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PhotoController;
 use App\Http\Controllers\QuestionController;
+use App\Http\Controllers\QuestionVoteController;
 use Illuminate\Routing\Router;
 
 /*
@@ -25,6 +26,8 @@ $router->view('/qa', 'qa.index')->name('qa.index');
 
 $router->resource('photos', PhotoController::class)->only('index', 'create', 'store');
 $router->apiResource('questions', QuestionController::class)->except('destroy');
+
+$router->post('/questions/{question}/vote', QuestionVoteController::class . '@store');
 
 $router->get('auth/login', LoginController::class . '@index')->name('auth.login');
 $router->post('auth/login', LoginController::class . '@attempt');

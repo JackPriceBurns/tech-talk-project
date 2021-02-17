@@ -22,6 +22,8 @@ let Vue = window.Vue = require('vue').default;
 Vue.component('photos', require('./components/Photos.vue').default);
 Vue.component('photo-upload', require('./components/PhotoUpload.vue').default);
 
+Vue.component('questions', require('./components/Questions.vue').default);
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
