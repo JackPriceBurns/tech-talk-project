@@ -18,7 +18,7 @@
             <div v-for="question in sortedQuestions" :key="question.id"
                  class="p-4 bg-white rounded-lg shadow mb-2 flex flex-col">
                 <div class="flex">
-                    <div class="w-full">
+                    <div class="flex-grow break-all">
                         {{ question.text }}
                     </div>
 
