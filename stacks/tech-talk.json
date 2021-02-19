@@ -1239,5 +1239,16 @@
             },
             "DependsOn": "EBEnvironment"
         }
+    },
+    "Outputs": {
+        "TechTalkInstanceIP": {
+            "Description": "The Public Address of the EB environment.",
+            "Value": {
+                "Fn::GetAtt": [
+                    "EBEnvironment",
+                    "EndpointURL"
+                ]
+            }
+        }
     }
 }
