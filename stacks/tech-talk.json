@@ -1241,7 +1241,7 @@
         }
     },
     "Outputs": {
-        "TechTalkInstanceIP": {
+        "EBEndpoint": {
             "Description": "The Public Address of the EB environment.",
             "Value": {
                 "Fn::GetAtt": [
